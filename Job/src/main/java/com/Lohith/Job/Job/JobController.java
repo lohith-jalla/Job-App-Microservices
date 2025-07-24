@@ -1,9 +1,13 @@
 package com.Lohith.Job.Job;
 
+import com.Lohith.Job.Job.dto.JobWithCompanyDTO;
+import com.Lohith.Job.Job.external.Company;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -17,9 +21,8 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Job>> findAll() {
-        List<Job> jobs=jobService.findAll();
-        return new ResponseEntity<>(jobs,HttpStatus.OK);
+    public ResponseEntity<List<JobWithCompanyDTO>> findAll() {
+        return new ResponseEntity<>(jobService.findAll(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
