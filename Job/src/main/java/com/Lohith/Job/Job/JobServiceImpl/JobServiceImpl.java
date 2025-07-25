@@ -6,10 +6,10 @@ import com.Lohith.Job.Job.JobService;
 import com.Lohith.Job.Job.JobRepository;
 import com.Lohith.Job.Job.dto.JobWithCompanyDTO;
 import com.Lohith.Job.Job.external.Company;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 public class JobServiceImpl implements JobService {
 
     private JobRepository jobRepository;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     public JobServiceImpl(JobRepository jobRepository) {
         this.jobRepository = jobRepository;
@@ -37,11 +40,10 @@ public class JobServiceImpl implements JobService {
 
     public JobWithCompanyDTO convertToDTO(Job job){
 
-        RestTemplate restTemplate = new RestTemplate();
         JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
         jobWithCompanyDTO.setJob(job);
         Company company = restTemplate.getForObject(
-                "http://localhost:8081/companies/"+job.getCompanyId(), Company.class);
+                "http://Company:8081/companies/" +job.getCompanyId(), Company.class);
         jobWithCompanyDTO.setCompany(company);
 
         return jobWithCompanyDTO;
