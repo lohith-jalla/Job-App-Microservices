@@ -19,5 +19,4 @@ public class Review {
     private double rating;
     private Long companyId;
 
-
 }

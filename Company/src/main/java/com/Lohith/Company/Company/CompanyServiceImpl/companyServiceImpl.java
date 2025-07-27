@@ -26,6 +26,7 @@ public class companyServiceImpl implements CompanyService {
         Company companyToUpdate=companyRepository.findById(id).orElse(null);
         if(companyToUpdate!=null){
             companyToUpdate.setName(company.getName());
+            companyToUpdate.setJobId(company.getJobId());
             companyToUpdate.setDescription(company.getDescription());
 
             companyRepository.save(companyToUpdate);
@@ -39,14 +40,14 @@ public class companyServiceImpl implements CompanyService {
         companyRepository.save(company);
     }
 
-//    @Override
-//    public List<Job> getAllJobsByCompanyId(Long id) {
-//        Company company=companyRepository.findById(id).orElse(null);
-//        if(company!=null){
-//            return company.getJobs();
-//        }
-//        return null;
-//    }
+    @Override
+    public List<Long> getAllJobsByCompanyId(Long id) {
+        Company company=companyRepository.findById(id).orElse(null);
+        if(company!=null){
+            return company.getJobId();
+        }
+        return null;
+    }
 
     @Override
     public Company getCompanyById(Long id) {

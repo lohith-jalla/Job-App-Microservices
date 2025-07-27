@@ -7,7 +7,7 @@ public interface CompanyService {
     List<Company> getAllCompanies();
     boolean UpdateCompany(Long id,Company company);
     void CreateCompany(Company company);
-//    List<Job> getAllJobsByCompanyId(Long id);
+    List<Long> getAllJobsByCompanyId(Long id);
     Company getCompanyById(Long id);
     boolean deleteCompany(Long id);
     void save(Company company);

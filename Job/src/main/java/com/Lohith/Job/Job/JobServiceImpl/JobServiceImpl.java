@@ -42,10 +42,13 @@ public class JobServiceImpl implements JobService {
 
         JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
         jobWithCompanyDTO.setJob(job);
-        Company company = restTemplate.getForObject(
-                "http://Company:8081/companies/" +job.getCompanyId(), Company.class);
-        jobWithCompanyDTO.setCompany(company);
-
+        try {
+            Company company = restTemplate.getForObject(
+                    "http://Company:8081/companies/" + job.getCompanyId(), Company.class);
+            jobWithCompanyDTO.setCompany(company);
+        }catch (Exception e){
+            jobWithCompanyDTO.setJob(null);
+        }
         return jobWithCompanyDTO;
     }
 

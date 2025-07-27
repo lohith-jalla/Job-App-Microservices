@@ -20,4 +20,11 @@ public class Company {
     private String name;
     private String description;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "company_jobs",
+            joinColumns = @JoinColumn(name = "company_id")
+    )
+    private List<Long> jobId;
+
 }

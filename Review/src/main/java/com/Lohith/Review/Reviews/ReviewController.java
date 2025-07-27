@@ -18,7 +18,7 @@ public class ReviewController {
 
     @GetMapping
     public ResponseEntity<List<Review>> getReviewsByCompanyId(
-            @RequestParam("companyId") Long companyId
+            @RequestParam Long companyId
     ){
         List<Review > reviews = reviewService.getReviews(companyId);
         return new ResponseEntity<>(reviews, HttpStatus.OK);
@@ -37,7 +37,7 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<String> createReview(
-            @RequestParam("companyId") Long companyId,
+            @RequestParam Long companyId,
             @RequestBody Review review
     ){
         boolean created = reviewService.createReview(companyId,review);
