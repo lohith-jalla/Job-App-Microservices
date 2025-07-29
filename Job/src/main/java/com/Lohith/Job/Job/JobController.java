@@ -1,6 +1,6 @@
 package com.Lohith.Job.Job;
 
-import com.Lohith.Job.Job.dto.JobWithCompanyDTO;
+import com.Lohith.Job.Job.dto.JobDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ public class JobController {
     }
 
     @GetMapping
-    public ResponseEntity<List<JobWithCompanyDTO>> findAll() {
+    public ResponseEntity<List<JobDTO>> findAll() {
         return new ResponseEntity<>(jobService.findAll(),HttpStatus.OK);
     }
 

@@ -1,12 +1,18 @@
 package com.Lohith.Job.Job.JobServiceImpl;
 
 
+import com.Lohith.Job.Job.FeignClients.CompanyClient;
+import com.Lohith.Job.Job.FeignClients.ReviewClient;
 import com.Lohith.Job.Job.Job;
 import com.Lohith.Job.Job.JobService;
 import com.Lohith.Job.Job.JobRepository;
-import com.Lohith.Job.Job.dto.JobWithCompanyDTO;
+import com.Lohith.Job.Job.dto.JobDTO;
 import com.Lohith.Job.Job.external.Company;
+import com.Lohith.Job.Job.external.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,12 +27,17 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private RestTemplate restTemplate;
 
-    public JobServiceImpl(JobRepository jobRepository) {
+    private CompanyClient companyClient;
+    private ReviewClient reviewClient;
+
+    public JobServiceImpl(JobRepository jobRepository, CompanyClient companyClient, ReviewClient reviewClient) {
         this.jobRepository = jobRepository;
+        this.companyClient = companyClient;
+        this.reviewClient = reviewClient;
     }
 
     @Override
-    public List<JobWithCompanyDTO> findAll() {
+    public List<JobDTO> findAll() {
         // for find all we need to show not only the companyID at the api endpoint
         // but also the company details. so we called the company MicroService
         // and created a dto and then exposed it at the endpoint.
@@ -38,18 +49,22 @@ public class JobServiceImpl implements JobService {
                 .collect(Collectors.toList());
     }
 
-    public JobWithCompanyDTO convertToDTO(Job job){
+    public JobDTO convertToDTO(Job job){
 
-        JobWithCompanyDTO jobWithCompanyDTO=new JobWithCompanyDTO();
-        jobWithCompanyDTO.setJob(job);
+        JobDTO jobDTO =new JobDTO();
+        jobDTO.setJob(job);
         try {
-            Company company = restTemplate.getForObject(
-                    "http://Company:8081/companies/" + job.getCompanyId(), Company.class);
-            jobWithCompanyDTO.setCompany(company);
+            Company company = companyClient.getCompany(job.getId());
+
+            List<Review> reviews = reviewClient.getReviews(job.getCompanyId());
+
+            jobDTO.setCompany(company);
+            jobDTO.setReviews(reviews);
+
         }catch (Exception e){
-            jobWithCompanyDTO.setJob(null);
+            jobDTO.setJob(null);
         }
-        return jobWithCompanyDTO;
+        return jobDTO;
     }
 
     @Override
