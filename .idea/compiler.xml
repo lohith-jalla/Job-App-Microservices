@@ -15,9 +15,19 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
         <module name="Job" />
+      </profile>
+      <profile name="Annotation profile for SpringsecDemo" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
         <module name="Company" />
+        <module name="SpringsecDemo" />
         <module name="Review" />
       </profile>
     </annotationProcessing>
@@ -28,6 +38,7 @@
       <module name="Job" options="-parameters" />
       <module name="Review" options="-parameters" />
       <module name="ServiceRegistery" options="-parameters" />
+      <module name="SpringsecDemo" options="-parameters" />
     </option>
   </component>
 </project>

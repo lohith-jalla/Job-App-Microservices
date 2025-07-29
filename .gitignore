@@ -1,0 +1,19 @@
+# Ignore app properties for each microservice
+**/application.properties
+
+# Ignore all .env files
+**/.env
+
+# Maven target directories
+**/target/
+
+# IDE files
+.idea/
+*.iml
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
