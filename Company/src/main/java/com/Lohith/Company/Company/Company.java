@@ -27,4 +27,6 @@ public class Company {
     )
     private List<Long> jobId;
 
+    private Long  userId;
+
 }

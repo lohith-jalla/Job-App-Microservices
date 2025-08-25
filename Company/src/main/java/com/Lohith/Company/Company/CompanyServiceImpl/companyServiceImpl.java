@@ -5,6 +5,7 @@ import com.Lohith.Company.Company.Company;
 import com.Lohith.Company.Company.CompanyRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,17 +37,36 @@ public class companyServiceImpl implements CompanyService {
     }
 
     @Override
+    public boolean addJobToCompany(Long companyId, Long jobId) {
+        Company company = companyRepository.findById(companyId).orElse(null);
+        if (company == null) {
+            return false;
+        }
+
+        List<Long> jobIds = company.getJobId();
+        if (jobIds == null) {
+            jobIds = new ArrayList<>();
+        }
+
+        if (!jobIds.contains(jobId)) {
+            jobIds.add(jobId);
+            company.setJobId(jobIds);
+            companyRepository.save(company);
+        }
+
+        return true;
+    }
+
+
+
+    @Override
     public void CreateCompany(Company company) {
         companyRepository.save(company);
     }
 
     @Override
     public List<Long> getAllJobsByCompanyId(Long id) {
-        Company company=companyRepository.findById(id).orElse(null);
-        if(company!=null){
-            return company.getJobId();
-        }
-        return null;
+        return companyRepository.findById(id).get().getJobId();
     }
 
     @Override

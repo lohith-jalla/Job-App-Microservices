@@ -11,4 +11,5 @@ public interface CompanyService {
     Company getCompanyById(Long id);
     boolean deleteCompany(Long id);
     void save(Company company);
+    boolean addJobToCompany(Long compId,Long jobId);
 }

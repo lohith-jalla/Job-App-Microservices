@@ -66,6 +66,10 @@ public class ReviewServiceImpl implements ReviewService {
         }
     }
 
+    @Override
+    public void save(Review review) {
+        reviewRepository.save(review);
+    }
 
 
 }

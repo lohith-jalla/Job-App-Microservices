@@ -21,4 +21,5 @@ public class Job {
     private String location;
     private Status status;
     private Long companyId;
+    private Long userId;
 }

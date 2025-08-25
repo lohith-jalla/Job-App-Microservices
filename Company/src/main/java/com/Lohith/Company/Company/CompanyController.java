@@ -2,6 +2,7 @@ package com.Lohith.Company.Company;
 
 
 
+import com.Lohith.Company.Company.client.JobClient;
 import com.Lohith.Company.Company.external.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ public class CompanyController {
 
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private JobClient jobClient;
 
     public CompanyController(CompanyService companyService) {
         this.companyService = companyService;
@@ -43,6 +46,13 @@ public class CompanyController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping("/{companyId}/addJob/{jobId}")
+    public ResponseEntity<?> addJobToCompany(@PathVariable Long companyId, @PathVariable Long jobId) {
+        boolean result = companyService.addJobToCompany(companyId, jobId);
+        return result ? ResponseEntity.ok("Job added") : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Company not found");
+    }
+
+
     @GetMapping("/{id}/jobs")
     public ResponseEntity<List<Job>> getJobsByCompanyId(
             @PathVariable("id") Long id
@@ -52,8 +62,12 @@ public class CompanyController {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
 
+        for(long i:jobsId){
+            System.out.print(i+" ");
+        }
+
         List<Job> jobs=jobsId.stream()
-                .map(jobId-> restTemplate.getForObject("http://Job:8082/jobs/"+jobId,Job.class))
+                .map(jobId-> jobClient.getJobById(jobId))
                 .collect(Collectors.toList());
 
         return new ResponseEntity<>(jobs, HttpStatus.OK);
